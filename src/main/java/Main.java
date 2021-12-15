@@ -7,9 +7,11 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvValidationException;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.w3c.dom.*;
 
+import javax.lang.model.element.Name;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
@@ -23,17 +25,22 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         //CSV to JSON (Задача 1)
-        String [] columnMapping = {"id", "firstName", "lastName", "country", "age"};
-        String fileName = "data.csv";
-        List<Employee> list = parseCSV(columnMapping, fileName);
+        //String [] columnMapping = {"id", "firstName", "lastName", "country", "age"};
+        //String fileName = "data.csv";
+        //List<Employee> list = parseCSV(columnMapping, fileName);
 
-        writeString(listToJson(list));
+        //writeString(listToJson(list));
 
         //XML to JSON (Задача 2)
-        List<Employee> list2 = parseXML("data.xml");
-        writeString(listToJson(list2));
+        //List<Employee> list2 = parseXML("data.xml");
+        //writeString(listToJson(list2));
 
+        System.out.println(readString("new_data.json"));
+        List<Employee> list3 = jsonToList(readString("new_data.json"));
 
+        for (Employee employee : list3) {
+            System.out.println(employee.employeeToString());
+        }
     }
 
     public static List<Employee> parseCSV (String [] columnMapping, String filename) {
@@ -111,7 +118,28 @@ public class Main {
         return list;
     }
 
+    public static String readString(String filename) {
+        String jsonToString = null;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            jsonToString = reader.readLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonToString;
+    }
 
+    public static List<Employee> jsonToList (String json) {
+        List <Employee> list = null;
+        try {
+            Employee [] employees = new Gson().fromJson(json, Employee[].class);
+            list = Arrays.stream(employees).toList();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
 
 

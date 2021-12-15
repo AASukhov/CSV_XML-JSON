@@ -17,8 +17,8 @@ public class Employee {
         this.age = age;
     }
 
-    public void employeeToString () {
-        System.out.println("id = " + id + " firstname = " + firstName + " lastname = " + lastName + " country = " + country + " age = " + age);
+    public String employeeToString () {
+        return "id = " + id + " firstname = " + firstName + " lastname = " + lastName + " country = " + country + " age = " + age;
     }
 
 }
